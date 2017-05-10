@@ -44,8 +44,12 @@ describe "UrlValidator" do
   context 'special' do
     it 'nil' do
       subject.url = nil
-      expect(subject).not_to be_valid
+      expect(subject).to be_valid
+    end
+
+    it 'handles empty strings' do
+      subject.url = ''
+      expect(subject).to be_valid
     end
   end
-
 end

@@ -11,6 +11,16 @@ module ActiveModel
       ZONES = domain["zones"]
 
       def validate_each(record, attribute, value)
+        if value.present?
+          validate_url(record, attribute, value)
+        else
+          true
+        end
+      end
+
+      protected
+
+      def validate_url(record, attribute, value)
         begin
           url = ensure_protocol(value)
           uri = Addressable::URI.parse(url)
@@ -22,8 +32,6 @@ module ActiveModel
           record.errors[attribute] << (options[:message] || "is an invalid URL")
         end
       end
-
-      protected
 
       # add common protocol by default
       def ensure_protocol url
